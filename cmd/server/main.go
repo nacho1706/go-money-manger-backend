@@ -13,14 +13,17 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error: .env didnt load correctly")
-	}
-
 	mysqlenv := os.Getenv("DATABASE_URL")
+
 	if mysqlenv == "" {
-		log.Fatalf("error al conectar la DB")
+		err := godotenv.Load()
+		if err != nil {
+			log.Print("Advertencia: No se encontró el archivo .env")
+		}
+		mysqlenv = os.Getenv("DATABASE_URL")
+	}
+	if mysqlenv == "" {
+		log.Fatalf("Error al conectar la DB: La variable DATABASE_URL no está configurada en el entorno ni en el archivo .env")
 	}
 
 	client, err := ent.Open("mysql", mysqlenv)
