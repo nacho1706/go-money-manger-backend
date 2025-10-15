@@ -36,7 +36,6 @@ var (
 		{Name: "amount", Type: field.TypeFloat64},
 		{Name: "currency", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString, Nullable: true},
-		{Name: "from", Type: field.TypeString, Nullable: true},
 		{Name: "conversion_rate", Type: field.TypeFloat64, Nullable: true},
 		{Name: "tx_date", Type: field.TypeTime},
 		{Name: "created_at", Type: field.TypeTime, Nullable: true},
@@ -52,13 +51,13 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "transactions_categories_transactions",
-				Columns:    []*schema.Column{TransactionsColumns[10]},
+				Columns:    []*schema.Column{TransactionsColumns[9]},
 				RefColumns: []*schema.Column{CategoriesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "transactions_users_transactions",
-				Columns:    []*schema.Column{TransactionsColumns[11]},
+				Columns:    []*schema.Column{TransactionsColumns[10]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

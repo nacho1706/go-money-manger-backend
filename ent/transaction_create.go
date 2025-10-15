@@ -82,20 +82,6 @@ func (_c *TransactionCreate) SetNillableDescription(v *string) *TransactionCreat
 	return _c
 }
 
-// SetFrom sets the "from" field.
-func (_c *TransactionCreate) SetFrom(v string) *TransactionCreate {
-	_c.mutation.SetFrom(v)
-	return _c
-}
-
-// SetNillableFrom sets the "from" field if the given value is not nil.
-func (_c *TransactionCreate) SetNillableFrom(v *string) *TransactionCreate {
-	if v != nil {
-		_c.SetFrom(*v)
-	}
-	return _c
-}
-
 // SetConversionRate sets the "conversion_rate" field.
 func (_c *TransactionCreate) SetConversionRate(v float64) *TransactionCreate {
 	_c.mutation.SetConversionRate(v)
@@ -258,10 +244,6 @@ func (_c *TransactionCreate) createSpec() (*Transaction, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(transaction.FieldDescription, field.TypeString, value)
 		_node.Description = value
-	}
-	if value, ok := _c.mutation.From(); ok {
-		_spec.SetField(transaction.FieldFrom, field.TypeString, value)
-		_node.From = value
 	}
 	if value, ok := _c.mutation.ConversionRate(); ok {
 		_spec.SetField(transaction.FieldConversionRate, field.TypeFloat64, value)

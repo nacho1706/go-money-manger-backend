@@ -14,7 +14,14 @@ type User struct {
 }
 
 func (User) Fields() []ent.Field {
-	return []ent.Field{field.Int("id"), field.Int("account_id").Unique(), field.String("first_name").Optional(), field.Time("created_at").Optional(), field.Time("last_seen").Optional(), field.String("currency").Optional(), field.String("locale").Optional(), field.String("timezone").Optional()}
+	return []ent.Field{field.Int("id"),
+		field.Int("account_id").Unique(),
+		field.String("first_name").Optional(),
+		field.Time("created_at").Optional(),
+		field.Time("last_seen").Optional(),
+		field.String("currency").Optional(),
+		field.String("locale").Optional(),
+		field.String("timezone").Optional()}
 }
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{edge.To("categories", Category.Type), edge.To("transactions", Transaction.Type)}

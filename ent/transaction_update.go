@@ -139,26 +139,6 @@ func (_u *TransactionUpdate) ClearDescription() *TransactionUpdate {
 	return _u
 }
 
-// SetFrom sets the "from" field.
-func (_u *TransactionUpdate) SetFrom(v string) *TransactionUpdate {
-	_u.mutation.SetFrom(v)
-	return _u
-}
-
-// SetNillableFrom sets the "from" field if the given value is not nil.
-func (_u *TransactionUpdate) SetNillableFrom(v *string) *TransactionUpdate {
-	if v != nil {
-		_u.SetFrom(*v)
-	}
-	return _u
-}
-
-// ClearFrom clears the value of the "from" field.
-func (_u *TransactionUpdate) ClearFrom() *TransactionUpdate {
-	_u.mutation.ClearFrom()
-	return _u
-}
-
 // SetConversionRate sets the "conversion_rate" field.
 func (_u *TransactionUpdate) SetConversionRate(v float64) *TransactionUpdate {
 	_u.mutation.ResetConversionRate()
@@ -333,12 +313,6 @@ func (_u *TransactionUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	}
 	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(transaction.FieldDescription, field.TypeString)
-	}
-	if value, ok := _u.mutation.From(); ok {
-		_spec.SetField(transaction.FieldFrom, field.TypeString, value)
-	}
-	if _u.mutation.FromCleared() {
-		_spec.ClearField(transaction.FieldFrom, field.TypeString)
 	}
 	if value, ok := _u.mutation.ConversionRate(); ok {
 		_spec.SetField(transaction.FieldConversionRate, field.TypeFloat64, value)
@@ -551,26 +525,6 @@ func (_u *TransactionUpdateOne) ClearDescription() *TransactionUpdateOne {
 	return _u
 }
 
-// SetFrom sets the "from" field.
-func (_u *TransactionUpdateOne) SetFrom(v string) *TransactionUpdateOne {
-	_u.mutation.SetFrom(v)
-	return _u
-}
-
-// SetNillableFrom sets the "from" field if the given value is not nil.
-func (_u *TransactionUpdateOne) SetNillableFrom(v *string) *TransactionUpdateOne {
-	if v != nil {
-		_u.SetFrom(*v)
-	}
-	return _u
-}
-
-// ClearFrom clears the value of the "from" field.
-func (_u *TransactionUpdateOne) ClearFrom() *TransactionUpdateOne {
-	_u.mutation.ClearFrom()
-	return _u
-}
-
 // SetConversionRate sets the "conversion_rate" field.
 func (_u *TransactionUpdateOne) SetConversionRate(v float64) *TransactionUpdateOne {
 	_u.mutation.ResetConversionRate()
@@ -775,12 +729,6 @@ func (_u *TransactionUpdateOne) sqlSave(ctx context.Context) (_node *Transaction
 	}
 	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(transaction.FieldDescription, field.TypeString)
-	}
-	if value, ok := _u.mutation.From(); ok {
-		_spec.SetField(transaction.FieldFrom, field.TypeString, value)
-	}
-	if _u.mutation.FromCleared() {
-		_spec.ClearField(transaction.FieldFrom, field.TypeString)
 	}
 	if value, ok := _u.mutation.ConversionRate(); ok {
 		_spec.SetField(transaction.FieldConversionRate, field.TypeFloat64, value)

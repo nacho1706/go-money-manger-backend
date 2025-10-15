@@ -99,7 +99,6 @@ func (h *TransactionHandler) Create(c *gin.Context) {
 		Amount         float64  `json:"amount" binding:"required,gt=0"`
 		Currency       string   `json:"currency" binding:"required,len=3"`
 		Description    *string  `json:"description"`
-		From           *string  `json:"from"`
 		ConversionRate *float64 `json:"conversion_rate" binding:"omitempty,gt=0"`
 		TxDate         string   `json:"tx_date" binding:"required"`
 	}
@@ -144,9 +143,6 @@ func (h *TransactionHandler) Create(c *gin.Context) {
 		create = create.SetDescription(*body.Description)
 	}
 
-	if body.From != nil {
-		create = create.SetFrom(*body.From)
-	}
 
 	if body.ConversionRate != nil {
 		create = create.SetConversionRate(*body.ConversionRate)
@@ -179,7 +175,6 @@ func (h *TransactionHandler) Update(c *gin.Context) {
 		Amount         *float64 `json:"amount" binding:"omitempty,gt=0"`
 		Currency       *string  `json:"currency" binding:"omitempty,len=3"`
 		Description    *string  `json:"description"`
-		From           *string  `json:"from"`
 		ConversionRate *float64 `json:"conversion_rate" binding:"omitempty,gt=0"`
 		TxDate         *string  `json:"tx_date"`
 	}
@@ -230,9 +225,6 @@ func (h *TransactionHandler) Update(c *gin.Context) {
 		update = update.SetDescription(*body.Description)
 	}
 
-	if body.From != nil {
-		update = update.SetFrom(*body.From)
-	}
 
 	if body.ConversionRate != nil {
 		update = update.SetConversionRate(*body.ConversionRate)

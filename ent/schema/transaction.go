@@ -19,7 +19,6 @@ func (Transaction) Fields() []ent.Field {
 		field.Enum("type").Values("income", "expense"),
 		field.Float("amount"), field.String("currency"),
 		field.String("description").Optional(),
-		field.String("from").Optional(),
 		field.Float("conversion_rate").Optional(),
 		field.Time("tx_date"),
 		field.Time("created_at").Optional(),

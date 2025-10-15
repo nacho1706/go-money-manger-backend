@@ -646,7 +646,6 @@ type TransactionMutation struct {
 	addamount          *float64
 	currency           *string
 	description        *string
-	from               *string
 	conversion_rate    *float64
 	addconversion_rate *float64
 	tx_date            *time.Time
@@ -1041,55 +1040,6 @@ func (m *TransactionMutation) ResetDescription() {
 	delete(m.clearedFields, transaction.FieldDescription)
 }
 
-// SetFrom sets the "from" field.
-func (m *TransactionMutation) SetFrom(s string) {
-	m.from = &s
-}
-
-// From returns the value of the "from" field in the mutation.
-func (m *TransactionMutation) From() (r string, exists bool) {
-	v := m.from
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFrom returns the old "from" field's value of the Transaction entity.
-// If the Transaction object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TransactionMutation) OldFrom(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFrom is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFrom requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFrom: %w", err)
-	}
-	return oldValue.From, nil
-}
-
-// ClearFrom clears the value of the "from" field.
-func (m *TransactionMutation) ClearFrom() {
-	m.from = nil
-	m.clearedFields[transaction.FieldFrom] = struct{}{}
-}
-
-// FromCleared returns if the "from" field was cleared in this mutation.
-func (m *TransactionMutation) FromCleared() bool {
-	_, ok := m.clearedFields[transaction.FieldFrom]
-	return ok
-}
-
-// ResetFrom resets all changes to the "from" field.
-func (m *TransactionMutation) ResetFrom() {
-	m.from = nil
-	delete(m.clearedFields, transaction.FieldFrom)
-}
-
 // SetConversionRate sets the "conversion_rate" field.
 func (m *TransactionMutation) SetConversionRate(f float64) {
 	m.conversion_rate = &f
@@ -1382,7 +1332,7 @@ func (m *TransactionMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TransactionMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 10)
 	if m.user != nil {
 		fields = append(fields, transaction.FieldUserID)
 	}
@@ -1400,9 +1350,6 @@ func (m *TransactionMutation) Fields() []string {
 	}
 	if m.description != nil {
 		fields = append(fields, transaction.FieldDescription)
-	}
-	if m.from != nil {
-		fields = append(fields, transaction.FieldFrom)
 	}
 	if m.conversion_rate != nil {
 		fields = append(fields, transaction.FieldConversionRate)
@@ -1436,8 +1383,6 @@ func (m *TransactionMutation) Field(name string) (ent.Value, bool) {
 		return m.Currency()
 	case transaction.FieldDescription:
 		return m.Description()
-	case transaction.FieldFrom:
-		return m.From()
 	case transaction.FieldConversionRate:
 		return m.ConversionRate()
 	case transaction.FieldTxDate:
@@ -1467,8 +1412,6 @@ func (m *TransactionMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldCurrency(ctx)
 	case transaction.FieldDescription:
 		return m.OldDescription(ctx)
-	case transaction.FieldFrom:
-		return m.OldFrom(ctx)
 	case transaction.FieldConversionRate:
 		return m.OldConversionRate(ctx)
 	case transaction.FieldTxDate:
@@ -1527,13 +1470,6 @@ func (m *TransactionMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDescription(v)
-		return nil
-	case transaction.FieldFrom:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetFrom(v)
 		return nil
 	case transaction.FieldConversionRate:
 		v, ok := value.(float64)
@@ -1629,9 +1565,6 @@ func (m *TransactionMutation) ClearedFields() []string {
 	if m.FieldCleared(transaction.FieldDescription) {
 		fields = append(fields, transaction.FieldDescription)
 	}
-	if m.FieldCleared(transaction.FieldFrom) {
-		fields = append(fields, transaction.FieldFrom)
-	}
 	if m.FieldCleared(transaction.FieldConversionRate) {
 		fields = append(fields, transaction.FieldConversionRate)
 	}
@@ -1663,9 +1596,6 @@ func (m *TransactionMutation) ClearField(name string) error {
 		return nil
 	case transaction.FieldDescription:
 		m.ClearDescription()
-		return nil
-	case transaction.FieldFrom:
-		m.ClearFrom()
 		return nil
 	case transaction.FieldConversionRate:
 		m.ClearConversionRate()
@@ -1701,9 +1631,6 @@ func (m *TransactionMutation) ResetField(name string) error {
 		return nil
 	case transaction.FieldDescription:
 		m.ResetDescription()
-		return nil
-	case transaction.FieldFrom:
-		m.ResetFrom()
 		return nil
 	case transaction.FieldConversionRate:
 		m.ResetConversionRate()

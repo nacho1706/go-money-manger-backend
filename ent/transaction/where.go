@@ -80,11 +80,6 @@ func Description(v string) predicate.Transaction {
 	return predicate.Transaction(sql.FieldEQ(FieldDescription, v))
 }
 
-// From applies equality check predicate on the "from" field. It's identical to FromEQ.
-func From(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldEQ(FieldFrom, v))
-}
-
 // ConversionRate applies equality check predicate on the "conversion_rate" field. It's identical to ConversionRateEQ.
 func ConversionRate(v float64) predicate.Transaction {
 	return predicate.Transaction(sql.FieldEQ(FieldConversionRate, v))
@@ -363,81 +358,6 @@ func DescriptionEqualFold(v string) predicate.Transaction {
 // DescriptionContainsFold applies the ContainsFold predicate on the "description" field.
 func DescriptionContainsFold(v string) predicate.Transaction {
 	return predicate.Transaction(sql.FieldContainsFold(FieldDescription, v))
-}
-
-// FromEQ applies the EQ predicate on the "from" field.
-func FromEQ(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldEQ(FieldFrom, v))
-}
-
-// FromNEQ applies the NEQ predicate on the "from" field.
-func FromNEQ(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldNEQ(FieldFrom, v))
-}
-
-// FromIn applies the In predicate on the "from" field.
-func FromIn(vs ...string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldIn(FieldFrom, vs...))
-}
-
-// FromNotIn applies the NotIn predicate on the "from" field.
-func FromNotIn(vs ...string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldNotIn(FieldFrom, vs...))
-}
-
-// FromGT applies the GT predicate on the "from" field.
-func FromGT(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldGT(FieldFrom, v))
-}
-
-// FromGTE applies the GTE predicate on the "from" field.
-func FromGTE(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldGTE(FieldFrom, v))
-}
-
-// FromLT applies the LT predicate on the "from" field.
-func FromLT(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldLT(FieldFrom, v))
-}
-
-// FromLTE applies the LTE predicate on the "from" field.
-func FromLTE(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldLTE(FieldFrom, v))
-}
-
-// FromContains applies the Contains predicate on the "from" field.
-func FromContains(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldContains(FieldFrom, v))
-}
-
-// FromHasPrefix applies the HasPrefix predicate on the "from" field.
-func FromHasPrefix(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldHasPrefix(FieldFrom, v))
-}
-
-// FromHasSuffix applies the HasSuffix predicate on the "from" field.
-func FromHasSuffix(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldHasSuffix(FieldFrom, v))
-}
-
-// FromIsNil applies the IsNil predicate on the "from" field.
-func FromIsNil() predicate.Transaction {
-	return predicate.Transaction(sql.FieldIsNull(FieldFrom))
-}
-
-// FromNotNil applies the NotNil predicate on the "from" field.
-func FromNotNil() predicate.Transaction {
-	return predicate.Transaction(sql.FieldNotNull(FieldFrom))
-}
-
-// FromEqualFold applies the EqualFold predicate on the "from" field.
-func FromEqualFold(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldEqualFold(FieldFrom, v))
-}
-
-// FromContainsFold applies the ContainsFold predicate on the "from" field.
-func FromContainsFold(v string) predicate.Transaction {
-	return predicate.Transaction(sql.FieldContainsFold(FieldFrom, v))
 }
 
 // ConversionRateEQ applies the EQ predicate on the "conversion_rate" field.

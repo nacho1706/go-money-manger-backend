@@ -31,8 +31,6 @@ type Transaction struct {
 	Currency string `json:"currency,omitempty"`
 	// Description holds the value of the "description" field.
 	Description string `json:"description,omitempty"`
-	// From holds the value of the "from" field.
-	From string `json:"from,omitempty"`
 	// ConversionRate holds the value of the "conversion_rate" field.
 	ConversionRate float64 `json:"conversion_rate,omitempty"`
 	// TxDate holds the value of the "tx_date" field.
@@ -89,7 +87,7 @@ func (*Transaction) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullFloat64)
 		case transaction.FieldID, transaction.FieldUserID, transaction.FieldCategoryID:
 			values[i] = new(sql.NullInt64)
-		case transaction.FieldType, transaction.FieldCurrency, transaction.FieldDescription, transaction.FieldFrom:
+		case transaction.FieldType, transaction.FieldCurrency, transaction.FieldDescription:
 			values[i] = new(sql.NullString)
 		case transaction.FieldTxDate, transaction.FieldCreatedAt, transaction.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -149,12 +147,6 @@ func (_m *Transaction) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
 				_m.Description = value.String
-			}
-		case transaction.FieldFrom:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field from", values[i])
-			} else if value.Valid {
-				_m.From = value.String
 			}
 		case transaction.FieldConversionRate:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
@@ -243,9 +235,6 @@ func (_m *Transaction) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("description=")
 	builder.WriteString(_m.Description)
-	builder.WriteString(", ")
-	builder.WriteString("from=")
-	builder.WriteString(_m.From)
 	builder.WriteString(", ")
 	builder.WriteString("conversion_rate=")
 	builder.WriteString(fmt.Sprintf("%v", _m.ConversionRate))

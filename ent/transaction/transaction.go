@@ -26,8 +26,6 @@ const (
 	FieldCurrency = "currency"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
-	// FieldFrom holds the string denoting the from field in the database.
-	FieldFrom = "from"
 	// FieldConversionRate holds the string denoting the conversion_rate field in the database.
 	FieldConversionRate = "conversion_rate"
 	// FieldTxDate holds the string denoting the tx_date field in the database.
@@ -67,7 +65,6 @@ var Columns = []string{
 	FieldAmount,
 	FieldCurrency,
 	FieldDescription,
-	FieldFrom,
 	FieldConversionRate,
 	FieldTxDate,
 	FieldCreatedAt,
@@ -143,11 +140,6 @@ func ByCurrency(opts ...sql.OrderTermOption) OrderOption {
 // ByDescription orders the results by the description field.
 func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDescription, opts...).ToFunc()
-}
-
-// ByFrom orders the results by the from field.
-func ByFrom(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldFrom, opts...).ToFunc()
 }
 
 // ByConversionRate orders the results by the conversion_rate field.
