@@ -38,12 +38,6 @@ func SetupRoutes(router *gin.Engine, client *ent.Client) {
 		transactions.DELETE("/:id", transactionHandler.Delete)
 	}
 
-	// User transactions routes
-	userTransactions := api.Group("/users/:user_id/transactions")
-	{
-		userTransactions.GET("/", transactionHandler.GetByUserID)
-	}
-
 	// TODO: Implement CategoryHandler
 	// categories := api.Group("/categories")
 	// {

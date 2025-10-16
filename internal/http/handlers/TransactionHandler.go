@@ -43,6 +43,23 @@ func (h *TransactionHandler) List(c *gin.Context) {
 		}
 	}
 
+	if fromDate := c.Query("from"); fromDate != "" {
+		if parsed, err := time.Parse("2006-01-02", fromDate); err == nil {
+			query = query.Where(transaction.TxDateGTE(parsed))
+		}
+	}
+
+	if toDate := c.Query("to"); toDate != "" {
+		if parsed, err := time.Parse("2006-01-02", toDate); err == nil {
+			endOfDay := parsed.Add(24 * time.Hour).Add(-time.Nanosecond)
+			query = query.Where(transaction.TxDateLTE(endOfDay))
+		}
+	}
+
+	if description := c.Query("description"); description != "" {
+		query = query.Where(transaction.DescriptionContains(description))
+	}
+
 	total, err := query.Count(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count transactions: " + err.Error()})
@@ -50,8 +67,6 @@ func (h *TransactionHandler) List(c *gin.Context) {
 	}
 
 	transactions, err := query.
-		WithUser().
-		WithCategory().
 		Offset(params.Offset).
 		Limit(params.Limit).
 		Order(ent.Desc(transaction.FieldTxDate)).
@@ -143,7 +158,6 @@ func (h *TransactionHandler) Create(c *gin.Context) {
 		create = create.SetDescription(*body.Description)
 	}
 
-
 	if body.ConversionRate != nil {
 		create = create.SetConversionRate(*body.ConversionRate)
 	} else {
@@ -225,7 +239,6 @@ func (h *TransactionHandler) Update(c *gin.Context) {
 		update = update.SetDescription(*body.Description)
 	}
 
-
 	if body.ConversionRate != nil {
 		update = update.SetConversionRate(*body.ConversionRate)
 	}
@@ -251,7 +264,6 @@ func (h *TransactionHandler) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, updatedTransaction)
 }
 
-// Delete deletes a transaction
 func (h *TransactionHandler) Delete(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -270,44 +282,4 @@ func (h *TransactionHandler) Delete(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Transaction deleted successfully"})
-}
-
-// GetByUserID retrieves transactions for a specific user
-func (h *TransactionHandler) GetByUserID(c *gin.Context) {
-	userID, err := strconv.Atoi(c.Param("user_id"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
-		return
-	}
-
-	params := utils.ParsePaginationParams(c)
-
-	query := h.client.Transaction.Query().Where(transaction.UserIDEQ(userID))
-
-	// Optional type filter
-	if transactionType := c.Query("type"); transactionType != "" {
-		if transactionType == "income" || transactionType == "expense" {
-			query = query.Where(transaction.TypeEQ(transaction.Type(transactionType)))
-		}
-	}
-
-	total, err := query.Count(c)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to count transactions: " + err.Error()})
-		return
-	}
-
-	transactions, err := query.
-		WithCategory().
-		Offset(params.Offset).
-		Limit(params.Limit).
-		Order(ent.Desc(transaction.FieldTxDate)).
-		All(c)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch transactions: " + err.Error()})
-		return
-	}
-
-	response := utils.CreatePaginationResponse(transactions, params, total)
-	c.JSON(http.StatusOK, response)
 }

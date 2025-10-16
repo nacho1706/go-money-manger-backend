@@ -33,8 +33,8 @@ func ParsePaginationParams(c *gin.Context) PaginationParams {
 		limit = 10
 	}
 
-	if limit > 100 {
-		limit = 100
+	if limit > 500 {
+		limit = 500
 	}
 
 	offset := (page - 1) * limit
